@@ -11,19 +11,29 @@ class App extends React.Component {
     super();
     this.state = {
       products: data.products,
-      cartItems: [],
+      cartItems: localStorage.getItem("cartItems")
+        ? JSON.parse(localStorage.getItem("cartItems"))
+        : [],
       size: "",
       sort: "",
     };
   }
 
+  createOrderPrompt = (order) => {
+    alert("Need to save order for " + order.name);
+  };
   removeFromCart = (product) => {
     const cartItems = this.state.cartItems.slice();
     this.setState({
       // remove the whole product in the cart list
       cartItems: cartItems.filter((x) => x._id !== product._id),
     });
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(cartItems.filter((x) => x._id !== product._id))
+    );
   };
+
   addToCart = (product) => {
     // using slice() means take a shallow copy of the original array
     // cartItems are object the same as product plus "count" key-value
@@ -41,6 +51,9 @@ class App extends React.Component {
     }
 
     this.setState({ cartItems });
+    // set carItem object inside localStorage
+    console.log("add local");
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
   sortProducts = (event) => {
     const sort = event.target.value;
@@ -104,6 +117,7 @@ class App extends React.Component {
               <Cart
                 cartItems={this.state.cartItems}
                 removeFromCart={this.removeFromCart}
+                createOrderPrompt={this.createOrderPrompt}
               />
             </div>
           </div>
