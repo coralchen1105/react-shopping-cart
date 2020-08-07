@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import formatCurrency from "../util";
+import { connect } from "react-redux";
+import { fetchProducts } from "../actions/productActions";
 
-export default class Productors extends Component {
+class Products extends Component {
   render() {
     return (
       <div>
@@ -30,3 +32,7 @@ export default class Productors extends Component {
     );
   }
 }
+
+export default connect((state) => ({ products: state.products.items }), {
+  fetchProducts,
+})(Products);
