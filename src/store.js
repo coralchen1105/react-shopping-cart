@@ -7,11 +7,12 @@ const initialState = {};
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   combineReducers({
-    products: productsReducer,
+    // store state name,namespaces the states of each reducer
+    productItems: productsReducer,
   }),
   initialState,
   composeEnhancer(applyMiddleware(thunk))
 );
 export default store;
 
-//
+//productItems: means the initial state name of the store: this.state.productItems
