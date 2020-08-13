@@ -51,6 +51,9 @@ class Products extends Component {
 
 // first param is return of mapStateToProps function, create products props in this products component
 // second param is return of mapDispatchToProps which dispatch action to component props
-export default connect((state) => ({ products: state.productItems.items }), {
-  fetchProducts,
-})(Products);
+export default connect(
+  (state) => ({ products: state.productItems.filteredItems }),
+  {
+    fetchProducts,
+  }
+)(Products);
