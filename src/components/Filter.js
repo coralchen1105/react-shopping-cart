@@ -49,6 +49,7 @@ class Filter extends Component {
   }
 }
 
+// dispatch filterProducts and sortProducts action functions here and change state
 export default connect(
   (state) => ({
     size: state.productItems.size,
