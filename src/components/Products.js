@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import formatCurrency from "../util";
 import { connect } from "react-redux";
 import { fetchProducts } from "../actions/productActions";
+import { addToCart } from "../actions/cartActions";
 
 // the initial state of the app: {}
 // When rendering react, got the props of this component: products, fetchProducts()
@@ -55,5 +56,6 @@ export default connect(
   (state) => ({ products: state.productItems.filteredItems }),
   {
     fetchProducts,
+    addToCart,
   }
 )(Products);
