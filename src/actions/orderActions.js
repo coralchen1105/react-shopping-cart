@@ -11,11 +11,11 @@ export const createOrder = (order) => (dispatch) => {
     .then((res) => res.json())
     .then((data) => {
       dispatch({ type: CREATE_ORDER, payload: data });
+      console.log(data);
       localStorage.clear("cartItems");
       dispatch({ type: CLEAR_CART });
     });
 };
-
 export const clearOrder = () => (dispatch) => {
   dispatch({ type: CLEAR_ORDER });
 };

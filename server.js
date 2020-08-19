@@ -27,6 +27,7 @@ const Product = mongoose.model(
 app.get("/api/products", async (req, res) => {
   const products = await Product.find({});
   res.send(products);
+  console.log("product show");
 });
 
 app.post("/api/products", async (req, res) => {
@@ -52,7 +53,7 @@ const Order = mongoose.model(
       name: String,
       address: String,
       total: Number,
-      cartItem: [
+      cartItems: [
         {
           _id: String,
           title: String,
@@ -77,6 +78,8 @@ app.post("/api/orders", async (req, res) => {
   ) {
     return res.send({ message: "Data is required." });
   }
+
+  console.log(req.body);
   const order = await Order(req.body).save();
   res.send(order);
 });
