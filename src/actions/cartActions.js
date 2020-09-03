@@ -2,7 +2,6 @@ import { ADD_TO_CART, REMOVE_FROM_CART } from "../types";
 
 export const addToCart = (product) => (dispatch, getState) => {
   const cartItems = getState().cart.cartItems.slice();
-  console.log(cartItems);
   let alreadyExists = false;
   cartItems.forEach((x) => {
     if (x._id === product._id) {
@@ -17,6 +16,7 @@ export const addToCart = (product) => (dispatch, getState) => {
 
   dispatch({
     type: ADD_TO_CART,
+    //{cartItems} means assign cartItems list to variable name cartItems, equal to cartItems : cartItems (list)
     payload: { cartItems },
   });
 
@@ -24,6 +24,7 @@ export const addToCart = (product) => (dispatch, getState) => {
 };
 
 export const removeFromCart = (product) => (dispatch, getState) => {
+  // remove items from cartItems in state, and then change state in cureent
   const cartItems = getState()
     .cart.cartItems.slice()
     .filter((x) => x._id !== product._id);

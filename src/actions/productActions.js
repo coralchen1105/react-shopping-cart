@@ -17,7 +17,6 @@ export const fetchProducts = () => async (dispatch) => {
 };
 
 export const filterProducts = (products, size) => (dispatch) => {
-  console.log(products);
   dispatch({
     type: FILTER_PRODUTS_BY_SIZE,
     payload: {
@@ -31,8 +30,10 @@ export const filterProducts = (products, size) => (dispatch) => {
 };
 
 export const sortProducts = (filteredProducts, sort) => (dispatch) => {
+  // copy the list to sortedProducts
   const sortedProducts = filteredProducts.slice();
   if (sort === "latest") {
+    // sort all products in sortedProducts list with condition _id is bigger
     sortedProducts.sort((a, b) => (a._id > b._id ? 1 : -1));
   } else {
     sortedProducts.sort((a, b) =>
@@ -45,7 +46,7 @@ export const sortProducts = (filteredProducts, sort) => (dispatch) => {
         : 1
     );
   }
-  console.log(sortedProducts);
+  // dispatch action to reducer
   dispatch({
     type: ORDER_PRODUCTS_BY_PRICE,
     payload: {

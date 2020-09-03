@@ -8,12 +8,6 @@ import { addToCart } from "../actions/cartActions";
 // When rendering react, got the props of this component: products, fetchProducts()
 
 class Products extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      product: null,
-    };
-  }
   componentDidMount() {
     this.props.fetchProducts();
   }

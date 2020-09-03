@@ -29,13 +29,14 @@ class Cart extends Component {
       cartItems: this.props.cartItems,
       total: this.props.cartItems.reduce((a, c) => a + c.price * c.count, 0),
     };
-    console.log(order);
     this.props.createOrder(order);
   };
   closeModal = () => {
     this.props.clearOrder();
   };
   render() {
+    // pass props properties to wrap as cartItems and order const
+    // equals to  cartItems : this.props.cartItems, order: this.props.order
     const { cartItems, order } = this.props;
     return (
       <div>
@@ -46,7 +47,7 @@ class Cart extends Component {
             You have {cartItems.length} in the cart{" "}
           </div>
         )}
-
+        {/* show prompt up orders */}
         {order && (
           <Modal isOpen={true} onRequestClose={this.closeModal}>
             <Zoom>
@@ -134,7 +135,7 @@ class Cart extends Component {
                     }}
                     className="button primary"
                   >
-                    Proceed
+                    Processed
                   </button>
                 </div>
               </div>

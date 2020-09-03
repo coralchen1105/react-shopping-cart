@@ -1,6 +1,7 @@
 import { CREATE_ORDER, CLEAR_CART, CLEAR_ORDER } from "../types";
 
 export const createOrder = (order) => (dispatch) => {
+  // response data from db contains more data, like createdAt, _id, updatedAt, all together with order data pass to state
   fetch("/api/orders", {
     method: "POST",
     headers: {
@@ -11,7 +12,6 @@ export const createOrder = (order) => (dispatch) => {
     .then((res) => res.json())
     .then((data) => {
       dispatch({ type: CREATE_ORDER, payload: data });
-      console.log(data);
       localStorage.clear("cartItems");
       dispatch({ type: CLEAR_CART });
     });
