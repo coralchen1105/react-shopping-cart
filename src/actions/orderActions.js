@@ -1,4 +1,4 @@
-import { CREATE_ORDER, CLEAR_CART, CLEAR_ORDER } from "../types";
+import { CREATE_ORDER, CLEAR_CART, CLEAR_ORDER, FETCH_ORDERS } from "../types";
 
 export const createOrder = (order) => (dispatch) => {
   // response data from db contains more data, like createdAt, _id, updatedAt, all together with order data pass to state
@@ -18,4 +18,12 @@ export const createOrder = (order) => (dispatch) => {
 };
 export const clearOrder = () => (dispatch) => {
   dispatch({ type: CLEAR_ORDER });
+};
+
+export const fetchOrders = () => (dispatch) => {
+  fetch("/api/orders")
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({ type: FETCH_ORDERS, payload: data });
+    });
 };
