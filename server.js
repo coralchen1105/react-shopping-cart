@@ -80,7 +80,20 @@ app.post("/api/orders", async (req, res) => {
   }
 
   console.log(req.body);
+  // save data into DB, and response with the db data back to frontend
   const order = await Order(req.body).save();
+  res.send(order);
+});
+
+app.get("/api/orders", async (req, res) => {
+  const orders = await Order.find({});
+  res.send(orders);
+});
+
+// delete an id in DB by ID
+app.delete("/api/orders/:id", async (req, res) => {
+  console.log("delete");
+  const order = await Order.findByIdAndDelete(req.params.id);
   res.send(order);
 });
 
