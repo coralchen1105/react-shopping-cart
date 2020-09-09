@@ -92,7 +92,8 @@ app.get("/api/orders", async (req, res) => {
 
 // delete an id in DB by ID
 app.delete("/api/orders/:id", async (req, res) => {
-  const order = await Order.findByIdAndDelete(req.param.id);
+  console.log("delete");
+  const order = await Order.findByIdAndDelete(req.params.id);
   res.send(order);
 });
 
