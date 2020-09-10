@@ -1,0 +1,18 @@
+# key points:
+
+# 1. preventDefault is called on the event when submitting the form to prevent a browser reload/refresh. Usually submit button will refresh the browser and flush all state. Using preventDefault will not lose data in state
+
+# 2. npm build: to generate react front end file as static file to /build.
+
+# mongodb+srv://react-shopping-cart-test:CORAL1105hoikit@cluster0.ggsik.mongodb.net/test?retryWrites=true&w=majority
+
+# login to heroku in terminal
+1 Navigate to WindowsPowerShell\v1.0 and launch powershell.exe run as admin
+2 Check the current setting for ExecutionPolicy:
+3 Get-ExecutionPolicy -List
+4 Set the ExecutionPolicy for the level and scope you want, for example:
+5 Set-ExecutionPolicy -Scope LocalMachine Unrestricted
+in powershell
+PS C:\Users\coral\Documents\react-shopping-cart> heroku login
+6. type in CL: heroku apps:create react-shopping-cart-test-coral
+7. http://react-shopping-cart-test-coral.herokuapp.com/ is the hosting site

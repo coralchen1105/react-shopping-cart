@@ -6,11 +6,21 @@ const shortid = require("shortid");
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost/react-shopping-cart-db", {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
+// render total react frontend directory to build/index.html folder,
+//everytime change frontend then type 'npm build',
+//it will render the change to build.index.html
+app.use("/", express.static(__dirname + "/build"));
+// once request / directory then get the /build/index.html as response
+app.get("/", (req, res) => res.sendFile(__dirname + "/build/index.html"));
+
+mongoose.connect(
+  process.env.MONGODB_URL || "mongodb://localhost/react-shopping-cart-db",
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  }
+);
 
 const Product = mongoose.model(
   "products",
