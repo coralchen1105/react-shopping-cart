@@ -2,7 +2,9 @@ import {
   FETCH_PRODUCTS,
   FILTER_PRODUTS_BY_SIZE,
   ORDER_PRODUCTS_BY_PRICE,
+  CREATE_PRODUCT,
 } from "../types";
+import { act } from "react-dom/test-utils";
 
 export const productsReducer = (state = {}, action) => {
   switch (action.type) {
@@ -21,6 +23,9 @@ export const productsReducer = (state = {}, action) => {
 
     case FETCH_PRODUCTS:
       return { items: action.payload, filteredItems: action.payload };
+
+    case CREATE_PRODUCT:
+      return { newProduct: action.payload };
     default:
       return state;
   }

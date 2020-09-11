@@ -2,6 +2,7 @@ import {
   FETCH_PRODUCTS,
   FILTER_PRODUTS_BY_SIZE,
   ORDER_PRODUCTS_BY_PRICE,
+  CREATE_PROODUCT,
 } from "../types";
 
 // use double arraow function that call without object binding
@@ -14,6 +15,20 @@ export const fetchProducts = () => async (dispatch) => {
     type: FETCH_PRODUCTS,
     payload: data,
   });
+};
+
+export const createProduct = (product) => (dispatch) => {
+  fetch("/api/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(product),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({ type: CREATE_PROODUCT, payload: data });
+    });
 };
 
 export const filterProducts = (products, size) => (dispatch) => {
