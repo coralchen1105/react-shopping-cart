@@ -2,7 +2,7 @@ import {
   FETCH_PRODUCTS,
   FILTER_PRODUTS_BY_SIZE,
   ORDER_PRODUCTS_BY_PRICE,
-  CREATE_PROODUCT,
+  CREATE_PRODUCT,
 } from "../types";
 
 // use double arraow function that call without object binding
@@ -27,7 +27,7 @@ export const createProduct = (product) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      dispatch({ type: CREATE_PROODUCT, payload: data });
+      dispatch({ type: CREATE_PRODUCT, payload: data });
     });
 };
 

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createProduct } from "../actions/productActions";
+import Checkbox from "../components/Checkbox";
 
+const OPTIONS = ["XS", "S", "M", "L", "XL", "XXL"];
 class CreateProduct extends Component {
   constructor(props) {
     super(props);
@@ -9,35 +11,84 @@ class CreateProduct extends Component {
       title: "",
       image: "",
       description: "",
-      availableSize: [],
       price: "",
+      checkboxes: OPTIONS.reduce(
+        (options, option) => ({
+          ...options,
+          [option]: false,
+        }),
+        {}
+      ),
     };
   }
 
   handleInput = (e) => {
+    e.preventDefault();
     this.setState({ [e.target.name]: e.target.value });
+    console.log(this.state);
   };
 
-  handleCheckbox = (e) => {
-    let avs = this.state.availableSize;
-    if (e.target.checked) {
-      avs.push(e.target.value);
-      this.setState({ availableSize: avs });
-    }
+  selectAllCheckboxes = (isSelected) => {
+    Object.keys(this.state.checkboxes).forEach((checkbox) => {
+      // BONUS: Can you explain why we pass updater function to setState instead of an object?
+      this.setState((prevState) => ({
+        checkboxes: {
+          ...prevState.checkboxes,
+          [checkbox]: isSelected,
+        },
+      }));
+    });
   };
 
-  //   createProduct = (e) => {
-  //     e.preventDefault();
-  //     const newProduct = {};
-  //   };
+  handleCheckboxChange = (changeEvent) => {
+    // changeEvent.target = input name tag value
+    const { name } = changeEvent.target;
+
+    this.setState((prevState) => ({
+      checkboxes: {
+        ...prevState.checkboxes,
+        [name]: !prevState.checkboxes[name],
+      },
+    }));
+  };
+  selectAll = () => this.selectAllCheckboxes(true);
+
+  deselectAll = () => this.selectAllCheckboxes(false);
+
+  createCheckbox = (option) => (
+    <Checkbox
+      label={option}
+      isSelected={this.state.checkboxes[option]}
+      onCheckboxChange={this.handleCheckboxChange}
+      key={option}
+    />
+  );
+
+  createCheckboxes = () => OPTIONS.map(this.createCheckbox);
+
+  createProduct = (e) => {
+    e.preventDefault();
+    const availableSizes = Object.keys(this.state.checkboxes).filter(
+      (checkbox) => this.state.checkboxes[checkbox]
+    );
+    const newProduct = {
+      name: this.state.name,
+      image: this.state.image,
+      description: this.state.description,
+      price: Number(this.state.price),
+      availableSizes: availableSizes,
+    };
+
+    this.props.createProduct(newProduct);
+  };
   render() {
     return (
       <div>
         <h2>create product here</h2>
         <div className="newProduct">
-          <form>
+          <form onSubmit={this.createProduct}>
             <div className="form-row">
-              <div className="form-group col-md-3">
+              <div className="form-group">
                 <label>Title</label>
                 <input
                   className="form-control"
@@ -47,7 +98,7 @@ class CreateProduct extends Component {
                   onChange={this.handleInput}
                 ></input>
               </div>
-              <div className="form-group col-md-3">
+              <div className="form-group">
                 <label>Price: </label>
                 <input
                   className="form-control"
@@ -57,11 +108,12 @@ class CreateProduct extends Component {
                   onChange={this.handleInput}
                 ></input>
               </div>
-              <div className="form-group col-md-3">
+              <div className="form-group">
                 <label>Description</label>
                 <textarea
                   className="form-control"
                   aria-label="With textarea"
+                  name="description"
                   onChange={this.handleInput}
                 ></textarea>
               </div>
@@ -73,79 +125,27 @@ class CreateProduct extends Component {
                   id="exampleFormControlFile1"
                 />
               </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label" for="inlineCheckbox1">
-                  Avaiable Size:
-                </label>
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="XS"
-                  value="XS"
-                />
-                <label class="form-check-label" for="XS">
-                  XS
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="S"
-                  value="S"
-                />
-                <label class="form-check-label" for="S">
-                  S
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="M"
-                  value="M"
-                />
-                <label class="form-check-label" for="M">
-                  M
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="L"
-                  value="L"
-                />
-                <label class="form-check-label" for="L">
-                  L
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="XL"
-                  value="XL"
-                />
-                <label class="form-check-label" for="XL">
-                  XL
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="XXL"
-                  value="XXL"
-                />
-                <label class="form-check-label" for="XXL">
-                  XL
-                </label>
-              </div>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Add new product
-            </button>
+            {this.createCheckboxes()}
+            <div className="form-group">
+              <button
+                type="button"
+                className="btn btn-outline-primary mr-2"
+                onClick={this.selectAll}
+              >
+                Select All
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-primary mr-2"
+                onClick={this.deselectAll}
+              >
+                Deselect All
+              </button>
+              <button type="submit" className="btn btn-primary">
+                Save
+              </button>
+            </div>
           </form>
         </div>
       </div>
