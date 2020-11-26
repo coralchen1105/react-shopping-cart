@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createProduct } from "../actions/productActions";
 import Checkbox from "../components/Checkbox";
+import axios from "axios";
 
 const OPTIONS = ["XS", "S", "M", "L", "XL", "XXL"];
 class CreateProduct extends Component {
@@ -9,7 +10,9 @@ class CreateProduct extends Component {
     super(props);
     this.state = {
       title: "",
-      image: "",
+      file: "",
+      imagePreviewUrl: "",
+      image:"",
       description: "",
       price: "",
       checkboxes: OPTIONS.reduce(
@@ -25,7 +28,6 @@ class CreateProduct extends Component {
   handleInput = (e) => {
     e.preventDefault();
     this.setState({ [e.target.name]: e.target.value });
-    console.log(this.state);
   };
 
   selectAllCheckboxes = (isSelected) => {
@@ -66,13 +68,47 @@ class CreateProduct extends Component {
 
   createCheckboxes = () => OPTIONS.map(this.createCheckbox);
 
+  _handleImageChange = (e) => {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    let image = e.target.files[0].name;
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result,
+        image: "/images/" + image
+      });
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   createProduct = (e) => {
     e.preventDefault();
+
+    // const data = new FormData();
+    // data.append("file", this.state.file);
+    // axios
+    //   .post("/api/images", data, {
+    //     // receive two parameter endpoint url ,form data
+    //   })
+    //   .then((res) => {
+    //     // then print response status
+    //     console.log(res.statusText);
+    //   });
+    // console.log("handle uploading-", this.state.file);
+
     const availableSizes = Object.keys(this.state.checkboxes).filter(
       (checkbox) => this.state.checkboxes[checkbox]
     );
+
+    console.log(availableSizes);
+
     const newProduct = {
-      name: this.state.name,
+      title: this.state.title,
       image: this.state.image,
       description: this.state.description,
       price: Number(this.state.price),
@@ -82,6 +118,7 @@ class CreateProduct extends Component {
     this.props.createProduct(newProduct);
   };
   render() {
+    
     return (
       <div>
         <h2>create product here</h2>
@@ -121,9 +158,18 @@ class CreateProduct extends Component {
                 <label for="exampleFormControlFile1">Example file input</label>
                 <input
                   type="file"
-                  class="form-control-file"
+                  className="form-control-file"
+                  name="file"
+                  onChange={this._handleImageChange}
                   id="exampleFormControlFile1"
                 />
+                 {/* <button
+                  className="submitButton"
+                  type="submit"
+                  onClick={(e) => this._handleSubmit(e)}
+                 >
+                  Upload Image
+                </button> */}
               </div>
             </div>
             {this.createCheckboxes()}
@@ -142,11 +188,12 @@ class CreateProduct extends Component {
               >
                 Deselect All
               </button>
-              <button type="submit" className="btn btn-primary">
-                Save
-              </button>
             </div>
+            <button type="submit" className="btn btn-primary">
+                Save
+            </button>
           </form>
+          
         </div>
       </div>
     );

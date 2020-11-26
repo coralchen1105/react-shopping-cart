@@ -4,7 +4,6 @@ import {
   ORDER_PRODUCTS_BY_PRICE,
   CREATE_PRODUCT,
 } from "../types";
-import { act } from "react-dom/test-utils";
 
 export const productsReducer = (state = {}, action) => {
   switch (action.type) {
