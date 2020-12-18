@@ -89,17 +89,17 @@ class CreateProduct extends Component {
   createProduct = (e) => {
     e.preventDefault();
 
-    // const data = new FormData();
-    // data.append("file", this.state.file);
-    // axios
-    //   .post("/api/images", data, {
-    //     // receive two parameter endpoint url ,form data
-    //   })
-    //   .then((res) => {
-    //     // then print response status
-    //     console.log(res.statusText);
-    //   });
-    // console.log("handle uploading-", this.state.file);
+    const data = new FormData();
+    data.append("file", this.state.file);
+    axios
+      .post("/api/images", data, {
+        // receive two parameter endpoint url ,form data
+      })
+      .then((res) => {
+        // then print response status
+        console.log(res.statusText);
+      });
+    console.log("handle uploading-", this.state.file);
 
     const availableSizes = Object.keys(this.state.checkboxes).filter(
       (checkbox) => this.state.checkboxes[checkbox]
