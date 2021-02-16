@@ -4,7 +4,7 @@ import {
   ORDER_PRODUCTS_BY_PRICE,
   CREATE_PRODUCT,
 } from "../types";
-
+// reducers is to initialize state of component, productItems.items is state shared with all store
 export const productsReducer = (state = {}, action) => {
   switch (action.type) {
     case FILTER_PRODUTS_BY_SIZE:

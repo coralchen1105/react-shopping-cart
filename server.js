@@ -25,7 +25,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-  }
+  } 
 );
 
 const Product = mongoose.model(
