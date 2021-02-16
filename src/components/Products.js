@@ -12,7 +12,7 @@ class Products extends Component {
     this.props.fetchProducts();
   }
   render() {
-    return (
+    return (  
       <div>
         {!this.props.products ? (
           <div>Loading...</div>
